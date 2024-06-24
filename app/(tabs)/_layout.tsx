@@ -18,8 +18,6 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   return (
-    // <Provider>
-      // <NavigationContainer>
         <Tab.Navigator
           screenOptions={{
             tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
