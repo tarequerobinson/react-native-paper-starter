@@ -66,6 +66,7 @@ import {Theme} from "./Theme";
   const onSurfaceVariant = darkenRgb(primary, 0.6); // Darken the primary color a bit more for contrast on surface variant
   const outline = lightenRgb(primary, 0.3); // Lighten the primary color for outline
   const outlineVariant = lightenRgb(primary, 0.4); // Lighten the primary color a bit more for outline variant
+  // const text = '#001021';
 
   const shadow = '#000000'; // Black for shadow
   const scrim = '#000000'; // Black for scrim
@@ -88,6 +89,7 @@ import {Theme} from "./Theme";
   // Construct the theme object
   const theme: Theme = {
     primary,
+    // text,
     onPrimary,
     primaryContainer,
     onPrimaryContainer,

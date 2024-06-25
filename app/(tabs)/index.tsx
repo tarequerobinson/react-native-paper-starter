@@ -1,70 +1,283 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { StyleSheet, ScrollView, TouchableOpacity, ToastAndroid, View } from 'react-native';
+import { Card, Title, Paragraph, Text , Badge, ThemeProvider, PaperProvider } from 'react-native-paper';
+import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import * as Clipboard from 'expo-clipboard';
+import { useColorScheme , useWindowDimensions } from 'react-native';
+import Dashboard from '@/components/Dashboard';
+import Addresses from '@/components/Addresses';
+import { TabView, SceneMap , TabBar} from 'react-native-tab-view';
+import PreAlert from '@/components/PreAlert';
+import { useRouter } from 'expo-router';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+
+
 
 export default function HomeScreen() {
+  const [balance, setBalance] = React.useState(2000);
+  const [availablePackages, setAvailablePackages] = React.useState(3);
+  const [inTransit, setInTransit] = React.useState(1);
+  const [delivered, setDelivered] = React.useState(5);
+
+  const addressText = "123 Main Street, Suite 400, San Francisco, CA 94105";
+  const colorScheme = useColorScheme();
+  const router = useRouter();
+
+
+
+  const NotificationIcon = ({ color, focused }) => <TabBarIcon name={focused ? 'notifications' : 'notifications-outline'} color={ colorScheme === 'dark' ? "white": color } />;
+
+  const InTransitIcon = ({ color, focused }) => <TabBarIcon name={focused ? 'hourglass' : 'hourglass-outline'} color={ colorScheme === 'dark' ? "white": color } />;
+const BalanceIcon = ({ color, focused }) => <TabBarIcon name={focused ? 'cash' : 'cash-outline'} color={ colorScheme === 'dark' ? "#AFE1AF": color }  />;
+const PackagesIcon = ({ color, focused }) => <TabBarIcon name={focused ? 'cube' : 'cube-outline'} color={ colorScheme === 'dark' ? "yellow": color }  />;
+const AddressIcon = ({ color, focused }) => <TabBarIcon name={focused ? 'pin' : 'pin-outline'} color={ colorScheme === 'dark' ? "red": color }  />;
+const DeliveredIcon = ({ color, focused }) => <TabBarIcon name={focused ? 'home' : 'home-outline'} color={ colorScheme === 'dark' ? "green": color } />;
+const AirShippingAddressIcon  = ({ color, focused }) => <TabBarIcon name={focused ? 'airplane' : 'airplane-outline'} color={ colorScheme === 'dark' ? "skyblue": color } />;
+const SeaShippingAddressIcon  = ({ color, focused }) => <TabBarIcon name={focused ? 'boat' : 'boat-outline'} color={ colorScheme === 'dark' ? "skyblue": color } />;
+
+  const handleCopyToClipboard = async (text) => {
+    await Clipboard.setStringAsync(text);
+    ToastAndroid.show('Copied to clipboard', ToastAndroid.SHORT);
+  };
+
+
+  const renderScene = SceneMap({
+    first: Dashboard,
+    second: Addresses,
+  });
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: 'Dashboard' },
+    { key: 'second', title: 'Addresses' },
+  ]);
+  const layout = useWindowDimensions();
+
+
+  const backgroundColor:string = (colorScheme === 'dark' ? "#": "#");
+  const renderTabBar = props => (
+    <TabBar
+      {...props}
+      indicatorStyle={{ backgroundColor: "gold" }}
+      style={{ backgroundColor: backgroundColor }}
+      renderLabel={({ route, focused, color }) => (
+        <Text style={{ backgroundColor, margin: 8 }}>
+          {route.title}
+        </Text>
+      )}
+    
+    />
+  );
+
+
+
+  
+
+
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <View style={styles.header} >
+<View>
+
+<Text variant="headlineLarge">Dashboard</Text>
+      <Text variant="headlineSmall">Welcome, Tareque</Text>
+
+</View>
+      
+<TouchableOpacity 
+
+
+onPress={() => router.push({
+  pathname: 'Notifications',
+  // params: {
+  //   song: JSON.stringify(item),
+  // },
+})}  
+>
+
+<View>
+
+      <Badge>100</Badge>
+      <NotificationIcon style={styles.notification} />
+
+</View>
+</TouchableOpacity>
+
+
+      </View>
+
+
+{/* <Dashboard/>
+<Addresses/> */}
+
+<TabView
+    renderTabBar={renderTabBar}
+
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{ width: layout.width }}
+    />
+
+
+
+
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    paddingTop: 30,
+    padding: 10,
+  },
+
+  header:{
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 8,
+    marginBottom: 20,
+
+
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+
+  notification:{
+
+    padding: "auto",
+
+
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+
+  cardBox: {
+    
+    margin: 5,
+    minWidth: 180,
+    borderRadius: 10,
+    borderColor:"white",
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    // backgroundColor: '#001222',
+    height: "auto",
+  },
+  cardBoxStandalone: {
+
+    // paddingTop:10,
+    margin: 5,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    height: "auto",
+  },
+cardContent: {
+    alignItems: 'center',
+    paddingVertical: 5,
+  },
+  scrollableStandalone:{
+// height:900
+    // paddingVertical: 10, // Adjusted padding for standalone cards
+    // paddingBottom: 0, // Adjusted padding for standalone cards
+// overflow: "visible",
+paddingVertical: 10,
+
+  },
+  cardContentStandalone: {
+    // paddingVertical: 10, // Adjusted padding for standalone cards
+    
+  },
+  cardTitle: {
+    fontSize: 14,
+    paddingVertical: 0,
+    marginVertical: 0,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 5,
+  },
+  paragraph: {
+    fontSize: 14,
+    textAlign: 'center',
   },
 });
+
+
+
+
+
+
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     paddingTop: 50,
+//     padding: 10,
+//   },
+//   header: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     marginBottom: 20,
+//   },
+//   notificationContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//   },
+//   badge: {
+//     marginRight: 5,
+//   },
+//   notification: {
+//     padding: "auto",
+//   },
+//   cardBox: {
+//     margin: 5,
+//     minWidth: 180,
+//     borderRadius: 10,
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.8,
+//     shadowRadius: 2,
+//     elevation: 5,
+//     minHeight: 130,
+//   },
+//   cardBoxStandalone: {
+//     margin: 5,
+//     borderRadius: 10,
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.8,
+//     shadowRadius: 2,
+//     elevation: 5,
+//     height: 130,
+//   },
+//   cardContent: {
+//     alignItems: 'center',
+//     paddingVertical: 5,
+//   },
+//   scrollableStandalone: {
+//     paddingVertical: 10,
+//   },
+//   cardContentStandalone: {},
+//   cardTitle: {
+//     fontSize: 14,
+//     paddingVertical: 0,
+//     marginVertical: 0,
+//   },
+//   title: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//     marginVertical: 5,
+//   },
+//   paragraph: {
+//     fontSize: 16,
+//     textAlign: 'center',
+//   },
+// });

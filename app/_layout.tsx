@@ -7,9 +7,10 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 // import lightTheme from '@/constants/Themes/lightTheme';
 // import darkTheme from '@/constants/Themes/darkTheme';
-// import { useColorScheme} from 'react-native';
+import { useColorScheme, View} from 'react-native';
 import generateLightTheme from '@/constants/Themes/generateLightTheme';
 import generateDarkTheme from '@/constants/Themes/generateDarkTheme';
+import PreAlert from '@/components/PreAlert';
 
 import Navbar from '@/components/AppBar';
 
@@ -19,8 +20,8 @@ import Navbar from '@/components/AppBar';
 SplashScreen.preventAutoHideAsync();
 
   // Example usage:
-  const lightTheme = generateLightTheme("#002D62");
-  const darkTheme = generateDarkTheme("#002D62");
+  const lightTheme = generateLightTheme("#4B9CD3");
+  const darkTheme = generateDarkTheme("#4B9CD3");
 
   generateDarkTheme
 
@@ -30,11 +31,11 @@ const DefaultTheme = {
   colors: lightTheme
 };
 
-
 const DarkTheme = {
   ...PaperDarkTheme, // or MD3DarkTheme
   roundness: 2,
   colors: darkTheme
+
 };
 
 
@@ -48,6 +49,9 @@ export default function RootLayout() {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
+  const colorScheme = useColorScheme();
+  const theme = (colorScheme === 'dark' ? DarkTheme  : DefaultTheme);
+
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
@@ -58,17 +62,27 @@ export default function RootLayout() {
     return null;
   }
 
-  // const colorScheme = useColorScheme();
 
-  // const theme = colorScheme === 'dark' ? DarkTheme  : DefaultTheme;
+
+
+
 
 
   return (
-    <PaperProvider theme={DefaultTheme} >
-<Navbar/>
+    <PaperProvider theme={theme} >
+{/* <Navbar/> */}
+
+<View>
+
+<PreAlert/>
+
+</View>
         <Stack>
+          
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
+          {/* <Stack.Screen name="Notifications" options={{ title: 'Notifications' }} /> */}
+
         </Stack>
     </PaperProvider>
   );

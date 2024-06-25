@@ -57,15 +57,16 @@ import {Theme} from "./Theme";
     const onError = "rgb(255, 255, 255)";
     const errorContainer = "rgb(255, 218, 214)";
     const onErrorContainer = "rgb(65, 0, 2)";
-    const background = darkenRgb(primary, 0.8); // Darken the primary color for background
-    const onBackground = lightenRgb(primary, 0.8); // Lighten the primary color for contrast on background
+    const background = darkenRgb(primary, 0.85); // Darken the primary color for background
+    const onBackground = "rgb(255, 255, 255)"; // Lighten the primary color for contrast on background
     const surface = background; // Use the same as background for surface
     const onSurface = onBackground; // Use the same as onBackground for contrast on surface
     const surfaceVariant = darkenRgb(primary, 0.6); // Darken the primary color a bit more for surface variant
     const onSurfaceVariant = lightenRgb(primary, 0.6); // Lighten the primary color a bit more for contrast on surface variant
     const outline = darkenRgb(primary, 0.3); // Darken the primary color for outline
     const outlineVariant = darkenRgb(primary, 0.4); // Darken the primary color a bit more for outline variant
-  
+    // const text = '#001021';
+
     const shadow = '#000000'; // Black for shadow
     const scrim = '#000000'; // Black for scrim
   
@@ -87,6 +88,7 @@ import {Theme} from "./Theme";
     // Construct the theme object
     const theme: Theme = {
       primary,
+      // text,
       onPrimary,
       primaryContainer,
       onPrimaryContainer,

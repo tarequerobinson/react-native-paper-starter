@@ -1,5 +1,6 @@
 export interface Theme {
     primary: string;
+    // text:string;
     onPrimary: string;
     primaryContainer: string;
     onPrimaryContainer: string;

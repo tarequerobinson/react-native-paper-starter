@@ -2,6 +2,7 @@ import { StyleSheet, Image, Platform, View } from 'react-native';
 import { Text, Button, Modal, Portal, Provider } from 'react-native-paper';
 import React, { useState } from 'react';
 import CustomDialog from '@/components/ui/Dialog';
+import Datatable from '@/components/ui/Datatable';
 
 export default function TabTwoScreen() {
   const [visible, setVisible] = useState(false); // State to control modal visibility
@@ -10,36 +11,33 @@ export default function TabTwoScreen() {
   const hideModal = () => setVisible(false);
 
   return (
-    <Provider>
+    // <Provider>
+
       <View style={styles.container}>
+      <Text variant="headlineLarge">Your Packages</Text>
+
+
         <View style={styles.centered}>
-          <Text variant="displayLarge">Tab 2</Text>
-          <Button onPress={showModal} style={styles.button}>
-            Open Modal
-          </Button>
+          <Datatable/>
         </View>
 
-        <Portal>
-          <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modal}>
-          <Text variant="displayLarge">Tab 2</Text>
-        </Modal>
-        </Portal>
       </View>
-    </Provider>
+    // </Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#fff', // Adjust background color as needed
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    paddingTop: 50,
+    padding:10
+    // backgroundColor: '#fff', // Adjust background color as needed
   },
   centered: {
     alignItems: 'center',
-    marginBottom: 16,
+    // marginBottom: 16,
   },
   button: {
     marginTop: 16,
